@@ -89,6 +89,22 @@ Writing Logs to Google Cloud Storage
 
 Follow the steps below to enable Google Cloud Storage logging.
 
+To enable this feature, ``airflow.cfg`` must be configured as in this
+example:
+
+.. code-block:: bash
+
+    [core]
+    # Airflow can store logs remotely in AWS S3. Users must supply a remote
+    # location URL (starting with either 's3://...') and an Airflow connection
+    # id that provides access to the storage location.
+    remote_base_log_folder = s3://my-bucket/path/to/logs
+    remote_log_conn_id = MyS3Conn
+    # Use server-side encryption for logs stored in S3
+    encrypt_s3_logs = False
+
+In the above example, Airflow will try to use ``S3Hook('MyS3Conn')``.
+
 #. Airflow's logging system requires a custom .py file to be located in the ``PYTHONPATH``, so that it's importable from Airflow. Start by creating a directory to store the config file. ``$AIRFLOW_HOME/config`` is recommended.
 #. Create empty files called ``$AIRFLOW_HOME/config/log_config.py`` and ``$AIRFLOW_HOME/config/__init__.py``.
 #. Copy the contents of ``airflow/config_templates/airflow_local_settings.py`` into the ``log_config.py`` file that was just created in the step above.
